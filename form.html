@@ -131,15 +131,30 @@
     }
     
     @keyframes dots {
+      0%, 20% { 
+        opacity: 1;
+      }
+      40% { 
+        opacity: 1;
+      }
+      60% { 
+        opacity: 1;
+      }
+      80%, 100% { 
+        opacity: 1;
+      }
+    }
+    
+    .loading-dots::after {
+      content: "";
+      animation: loading-dots 1.5s infinite;
+    }
+    
+    @keyframes loading-dots {
       0%, 20% { content: ""; }
       40% { content: "."; }
       60% { content: ".."; }
       80%, 100% { content: "..."; }
-    }
-    
-    .loading::after {
-      content: "...";
-      animation: dots 1.5s infinite;
     }
     
     .fade-in {
@@ -165,14 +180,19 @@
         transform: translateY(0);
       }
     }
+
+    .spinning-border {
+      background: conic-gradient(from 0deg, #38bdf8, #a78bfa, #f472b6, #38bdf8);
+      animation: spin-slow 8s linear infinite;
+    }
   </style>
 </head>
 <body class="flex items-center justify-center p-4">
   <!-- Floating particles -->
-  <div class="particle w-4 h-4 bg-cyan-300 opacity-20 top-1/4 left-1/4 animate-float"></div>
-  <div class="particle w-6 h-6 bg-purple-400 opacity-15 top-1/3 right-1/5 animate-float-reverse"></div>
-  <div class="particle w-3 h-3 bg-pink-400 opacity-25 bottom-1/4 left-1/3 animate-float"></div>
-  <div class="particle w-5 h-5 bg-blue-400 opacity-20 bottom-1/3 right-1/4 animate-float-reverse"></div>
+  <div class="particle w-4 h-4 bg-cyan-300 opacity-20 animate-float" style="top: 25%; left: 25%;"></div>
+  <div class="particle w-6 h-6 bg-purple-400 opacity-15 animate-float-reverse" style="top: 33%; right: 20%;"></div>
+  <div class="particle w-3 h-3 bg-pink-400 opacity-25 animate-float" style="bottom: 25%; left: 33%;"></div>
+  <div class="particle w-5 h-5 bg-blue-400 opacity-20 animate-float-reverse" style="bottom: 33%; right: 25%;"></div>
   
   <div class="relative w-full max-w-2xl">
     <!-- Decorative elements -->
@@ -181,9 +201,9 @@
     
     <div class="glass-card rounded-2xl p-8 md:p-10 relative overflow-hidden">
       <!-- Animated gradient border -->
-      <div class="absolute inset-0 rounded-2xl overflow-hidden">
-        <div class="absolute -inset-10 opacity-70">
-          <div class="w-full h-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 animate-spin-slow"></div>
+      <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+        <div class="absolute -inset-1 opacity-30">
+          <div class="w-full h-full spinning-border rounded-2xl"></div>
         </div>
       </div>
       
@@ -192,8 +212,8 @@
         <div class="flex flex-col items-center mb-8 slide-in" style="animation-delay: 0.1s;">
           <div class="relative mb-6">
             <div class="w-24 h-24 rounded-full overflow-hidden shadow-lg border-4 border-white">
-  <img src="https://files.catbox.moe/nqddif.png" alt="Foto Profil" class="w-full h-full object-cover">
-</div>
+              <img src="https://files.catbox.moe/nqddif.png" alt="Foto Profil" class="w-full h-full object-cover" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iNDgiIGN5PSI0OCIgcj0iNDgiIGZpbGw9IiMzOGJkZjgiLz4KPHN2ZyB4PSIyNCIgeT0iMjQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Im0yMCAxNi02LTQgNi00Ii8+CjxwYXRoIGQ9Im00IDEyIDYtNCA2IDQiLz4KPHN2Zz4KPC9zdmc+Cg=='" />
+            </div>
             <div class="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-green-400 border-4 border-white flex items-center justify-center">
               <i class="fas fa-check text-white text-xs"></i>
             </div>
@@ -212,10 +232,14 @@
                 id="pesan" 
                 name="pesan" 
                 rows="5" 
-                class="w-full px-4 py-3 bg-gray-900 bg-opacity-50 rounded-xl text-gray-200 placeholder-gray-400 border-none focus:ring-2 focus:ring-cyan-500 textarea-glow transition-all duration-300"
+                class="w-full px-4 py-3 bg-gray-900 bg-opacity-50 rounded-xl text-gray-200 placeholder-gray-400 border-none focus:ring-2 focus:ring-cyan-500 textarea-glow transition-all duration-300 resize-vertical"
                 placeholder="Tulis pesan detail Anda di sini..."
                 required
+                maxlength="1000"
               ></textarea>
+            </div>
+            <div class="text-right text-xs text-gray-400">
+              <span id="charCount">0</span>/1000 karakter
             </div>
           </div>
           
@@ -223,10 +247,10 @@
             <button 
               type="submit" 
               id="submitBtn"
-              class="w-full py-4 px-6 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white font-semibold rounded-xl shadow-lg btn-hover-grow transition-all duration-300 flex items-center justify-center space-x-2"
+              class="w-full py-4 px-6 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white font-semibold rounded-xl shadow-lg btn-hover-grow transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               <span id="buttonText">Kirim Pesan</span>
-              <i class="fas fa-paper-plane"></i>
+              <i class="fas fa-paper-plane" id="buttonIcon"></i>
             </button>
           </div>
           
@@ -256,7 +280,9 @@
         <div class="mt-8 pt-6 border-t border-gray-800 text-center text-gray-400 text-sm slide-in" style="animation-delay: 0.4s;">
           <p>Butuh bantuan segera? <a href="#" class="text-cyan-400 hover:text-cyan-300 transition-colors">Hubungi admin</a></p>
           <div class="flex justify-center space-x-4 mt-4">
-            <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-whatsapp text-lg"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors" aria-label="WhatsApp">
+              <i class="fab fa-whatsapp text-lg"></i>
+            </a>
           </div>
         </div>
       </div>
@@ -264,7 +290,9 @@
   </div>
 
   <script>
+    // Initialize floating particles
     document.addEventListener('DOMContentLoaded', () => {
+      // Create additional floating particles
       for (let i = 0; i < 8; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle rounded-full absolute';
@@ -289,12 +317,37 @@
         
         document.body.appendChild(particle);
       }
+
+      // Character counter
+      const textarea = document.getElementById('pesan');
+      const charCount = document.getElementById('charCount');
+      
+      textarea.addEventListener('input', function() {
+        const currentLength = this.value.length;
+        charCount.textContent = currentLength;
+        
+        if (currentLength > 900) {
+          charCount.classList.add('text-red-400');
+        } else if (currentLength > 800) {
+          charCount.classList.add('text-yellow-400');
+          charCount.classList.remove('text-red-400');
+        } else {
+          charCount.classList.remove('text-red-400', 'text-yellow-400');
+        }
+      });
     });
 
+    // Form submission handler
     document.getElementById("requestForm").addEventListener("submit", async function (e) {
       e.preventDefault();
       
       const pesan = document.getElementById("pesan").value.trim();
+      
+      if (!pesan) {
+        showAlert('error', 'Pesan tidak boleh kosong!');
+        return;
+      }
+
       const waktu = new Date().toLocaleString('id-ID', {
         year: 'numeric',
         month: '2-digit',
@@ -306,51 +359,94 @@
 
       const submitBtn = document.getElementById("submitBtn");
       const buttonText = document.getElementById("buttonText");
+      const buttonIcon = document.getElementById("buttonIcon");
+      
+      // Hide alerts
+      hideAlerts();
+      
+      // Set loading state
+      setLoadingState(true);
+      
+      try {
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Make actual API call
+        const response = await fetch("/api/request", {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({ pesan, waktu })
+        });
+        
+        if (response.ok) {
+          showAlert('success');
+          document.getElementById("requestForm").reset();
+          document.getElementById('charCount').textContent = '0';
+          
+          // Auto-hide success message after 5 seconds
+          setTimeout(() => {
+            hideAlerts();
+          }, 5000);
+        } else {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        showAlert('error', 'Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.');
+        
+        // Auto-hide error message after 5 seconds
+        setTimeout(() => {
+          hideAlerts();
+        }, 5000);
+      } finally {
+        setLoadingState(false);
+      }
+    });
+
+    function setLoadingState(isLoading) {
+      const submitBtn = document.getElementById("submitBtn");
+      const buttonText = document.getElementById("buttonText");
+      const buttonIcon = document.getElementById("buttonIcon");
+      
+      if (isLoading) {
+        submitBtn.disabled = true;
+        buttonText.textContent = "Mengirim";
+        buttonText.classList.add("loading-dots");
+        buttonIcon.className = "fas fa-spinner fa-spin";
+      } else {
+        submitBtn.disabled = false;
+        buttonText.textContent = "Kirim Pesan";
+        buttonText.classList.remove("loading-dots");
+        buttonIcon.className = "fas fa-paper-plane";
+      }
+    }
+
+    function showAlert(type, customMessage = null) {
+      const alertSuccess = document.getElementById("alertSuccess");
+      const alertError = document.getElementById("alertError");
+      
+      if (type === 'success') {
+        alertSuccess.classList.remove('hidden');
+        alertSuccess.classList.add('fade-in');
+      } else if (type === 'error') {
+        if (customMessage) {
+          const errorText = alertError.querySelector('p:last-child');
+          errorText.textContent = customMessage;
+        }
+        alertError.classList.remove('hidden');
+        alertError.classList.add('fade-in');
+      }
+    }
+
+    function hideAlerts() {
       const alertSuccess = document.getElementById("alertSuccess");
       const alertError = document.getElementById("alertError");
       
       alertSuccess.classList.add('hidden');
       alertError.classList.add('hidden');
-      
-      submitBtn.classList.add("opacity-75", "cursor-not-allowed");
-      buttonText.textContent = "Mengirim";
-      submitBtn.classList.add("loading");
-      
-      try {
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        // In a real app, you would use:
-        // const res = await fetch("/api/request", {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        //   body: new URLSearchParams({ pesan, waktu })
-        // });
-        
-        const success = true; 
-        
-        if (success) {
-          alertSuccess.classList.remove('hidden');
-          alertSuccess.classList.add('fade-in');
-          
-          setTimeout(() => {
-            document.getElementById("requestForm").reset();
-            alertSuccess.classList.add('hidden');
-          }, 5000);
-        } else {
-          throw new Error('Network response was not ok');
-        }
-      } catch (error) {
-        alertError.classList.remove('hidden');
-        alertError.classList.add('fade-in');
-        
-        setTimeout(() => {
-          alertError.classList.add('hidden');
-        }, 5000);
-      } finally {
-        submitBtn.classList.remove("opacity-75", "cursor-not-allowed", "loading");
-        buttonText.textContent = "Kirim Permintaan";
-      }
-    });
+    }
   </script>
 </body>
 </html>
