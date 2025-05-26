@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Absensi Karyawan</title>
+  <title>Website Request</title>
   <style>
     * {
       margin: 0;
@@ -12,122 +12,230 @@
     }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #ff8a00, #e52e71);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
       color: #fff;
     }
     .form-container {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
       padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
       width: 100%;
       max-width: 500px;
       text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .profile-section {
+      margin-bottom: 30px;
+    }
+    .profile-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 32px;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
     .form-container h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
+      font-size: 28px;
+      margin-bottom: 10px;
       color: #fff;
+      font-weight: 600;
+    }
+    .subtitle {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 30px;
     }
     label {
       display: block;
       font-size: 16px;
-      margin: 10px 0 5px;
+      margin: 20px 0 8px;
       color: #fff;
+      text-align: left;
+      font-weight: 500;
     }
-    input {
+    textarea {
       width: 100%;
-      padding: 12px;
+      padding: 15px;
       margin-top: 5px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      background: #fff;
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.9);
       color: #333;
       font-size: 16px;
       outline: none;
-      transition: border 0.3s ease;
+      transition: all 0.3s ease;
+      resize: vertical;
+      min-height: 120px;
+      font-family: inherit;
     }
-    input:focus {
-      border-color: #ff8a00;
+    textarea:focus {
+      border-color: #4ecdc4;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+    }
+    textarea::placeholder {
+      color: #999;
     }
     button {
       width: 100%;
       padding: 15px;
-      margin-top: 20px;
-      background-color: #ff8a00;
+      margin-top: 25px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
       border: none;
       color: #fff;
       font-size: 16px;
-      border-radius: 8px;
+      border-radius: 12px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
     button:hover {
-      background-color: #e52e71;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+      background: linear-gradient(45deg, #764ba2, #667eea);
+    }
+    button:active {
+      transform: translateY(0);
     }
     .alert {
       margin-top: 20px;
-      color: #28a745;
-      font-weight: bold;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: 600;
       display: none;
+      animation: slideIn 0.3s ease;
+    }
+    .alert.success {
+      background: rgba(40, 167, 69, 0.9);
+      color: #fff;
+      border: 1px solid #28a745;
     }
     .alert.error {
-      color: #dc3545;
+      background: rgba(220, 53, 69, 0.9);
+      color: #fff;
+      border: 1px solid #dc3545;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .loading {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    .loading::after {
+      content: "...";
+      animation: dots 1.5s infinite;
+    }
+    @keyframes dots {
+      0%, 20% { content: ""; }
+      40% { content: "."; }
+      60% { content: ".."; }
+      80%, 100% { content: "..."; }
     }
   </style>
 </head>
 <body>
   <div class="form-container">
-    <h2>Form Absensi</h2>
-    <form id="absenForm">
-      <label for="nama">Nama</label>
-      <input type="text" id="nama" name="nama" required />
+    <div class="profile-section">
+      <div class="profile-image">R</div>
+    </div>
+    <h2>Website Request</h2>
+    <p class="subtitle">Kirimkan saya pesan</p>
+    
+    <form id="requestForm">
+      <label for="pesan">Pesan</label>
+      <textarea 
+        id="pesan" 
+        name="pesan" 
+        placeholder="Tulis pesan Anda di sini..." 
+        required
+      ></textarea>
 
-      <label for="umur">Umur</label>
-      <input type="number" id="umur" name="umur" required />
-
-      <label for="kelas">Kelas / Divisi</label>
-      <input type="text" id="kelas" name="kelas" required />
-
-      <button type="submit">Kirim Absensi</button>
-      <div id="alert" class="alert">Absensi berhasil!</div>
-      <div id="alertError" class="alert error">Gagal mengirim absensi! Coba lagi.</div>
+      <button type="submit" id="submitBtn">Kirim Pesan</button>
+      
+      <div id="alertSuccess" class="alert success">
+        ✅ Pesan berhasil terkirim!
+      </div>
+      <div id="alertError" class="alert error">
+        ❌ Gagal mengirim pesan! Coba lagi.
+      </div>
     </form>
   </div>
 
   <script>
-    document.getElementById("absenForm").addEventListener("submit", async function (e) {
+    document.getElementById("requestForm").addEventListener("submit", async function (e) {
       e.preventDefault();
-      const nama = document.getElementById("nama").value;
-      const umur = document.getElementById("umur").value;
-      const kelas = document.getElementById("kelas").value;
-      const waktu = new Date().toLocaleString();
-
-      const res = await fetch("/api/absen", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ nama, umur, kelas, waktu })
+      
+      const pesan = document.getElementById("pesan").value.trim();
+      const waktu = new Date().toLocaleString('id-ID', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
       });
 
-      const alertSuccess = document.getElementById("alert");
+      const submitBtn = document.getElementById("submitBtn");
+      const alertSuccess = document.getElementById("alertSuccess");
       const alertError = document.getElementById("alertError");
       
-      if (res.ok) {
-        alertSuccess.style.display = "block";
-        setTimeout(() => {
-          alertSuccess.style.display = "none";
-          document.getElementById("absenForm").reset();
-        }, 2000);
-      } else {
+      // Hide previous alerts
+      alertSuccess.style.display = "none";
+      alertError.style.display = "none";
+      
+      // Show loading state
+      submitBtn.classList.add("loading");
+      submitBtn.textContent = "Mengirim";
+
+      try {
+        const res = await fetch("/api/request", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ pesan, waktu })
+        });
+
+        if (res.ok) {
+          alertSuccess.style.display = "block";
+          setTimeout(() => {
+            alertSuccess.style.display = "none";
+            document.getElementById("requestForm").reset();
+          }, 3000);
+        } else {
+          throw new Error('Network response was not ok');
+        }
+      } catch (error) {
         alertError.style.display = "block";
         setTimeout(() => {
           alertError.style.display = "none";
         }, 3000);
+      } finally {
+        // Reset button state
+        submitBtn.classList.remove("loading");
+        submitBtn.textContent = "Kirim Pesan";
       }
     });
   </script>
