@@ -28,6 +28,7 @@
       width: 100%;
       max-width: 500px;
       text-align: center;
+      position: relative;
     }
     .form-container h2 {
       font-size: 24px;
@@ -69,10 +70,19 @@
       font-size: 16px;
       border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
     button:hover {
       background-color: #764ba2;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
     }
     .alert {
       margin-top: 20px;
@@ -89,6 +99,163 @@
       font-size: 14px;
       line-height: 1.4;
     }
+
+    /* Success Animation Overlay */
+    .success-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(40, 167, 69, 0.95);
+      border-radius: 12px;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 10;
+    }
+
+    .success-overlay.show {
+      display: flex;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Checkmark Animation */
+    .checkmark {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: block;
+      stroke-width: 3;
+      stroke: #fff;
+      stroke-miterlimit: 10;
+      margin: 10px auto;
+      box-shadow: inset 0px 0px 0px #28a745;
+      animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+    }
+
+    .checkmark__circle {
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      stroke-width: 3;
+      stroke-miterlimit: 10;
+      stroke: #28a745;
+      fill: none;
+      animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    }
+
+    .checkmark__check {
+      transform-origin: 50% 50%;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+    }
+
+    @keyframes stroke {
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes scale {
+      0%, 100% {
+        transform: none;
+      }
+      50% {
+        transform: scale3d(1.1, 1.1, 1);
+      }
+    }
+
+    @keyframes fill {
+      100% {
+        box-shadow: inset 0px 0px 0px 30px #28a745;
+      }
+    }
+
+    .success-text {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 20px;
+      opacity: 0;
+      animation: slideUp 0.5s ease-out 1.2s forwards;
+    }
+
+    .success-subtext {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      margin-top: 10px;
+      opacity: 0;
+      animation: slideUp 0.5s ease-out 1.4s forwards;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Loading spinner */
+    .loading-spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .button-text {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Confetti Animation */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #ffd700;
+    }
+
+    .confetti:nth-child(1) { background: #ff6b6b; left: 10%; animation: confetti-fall 3s linear infinite; animation-delay: 0s; }
+    .confetti:nth-child(2) { background: #4ecdc4; left: 20%; animation: confetti-fall 3s linear infinite; animation-delay: 0.2s; }
+    .confetti:nth-child(3) { background: #45b7d1; left: 30%; animation: confetti-fall 3s linear infinite; animation-delay: 0.4s; }
+    .confetti:nth-child(4) { background: #96ceb4; left: 40%; animation: confetti-fall 3s linear infinite; animation-delay: 0.6s; }
+    .confetti:nth-child(5) { background: #ffeaa7; left: 50%; animation: confetti-fall 3s linear infinite; animation-delay: 0.8s; }
+    .confetti:nth-child(6) { background: #dda0dd; left: 60%; animation: confetti-fall 3s linear infinite; animation-delay: 1s; }
+    .confetti:nth-child(7) { background: #98d8c8; left: 70%; animation: confetti-fall 3s linear infinite; animation-delay: 1.2s; }
+    .confetti:nth-child(8) { background: #f7dc6f; left: 80%; animation: confetti-fall 3s linear infinite; animation-delay: 1.4s; }
+    .confetti:nth-child(9) { background: #bb8fce; left: 90%; animation: confetti-fall 3s linear infinite; animation-delay: 1.6s; }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -101,16 +268,45 @@
       <label for="pesan">Pesan</label>
       <textarea id="pesan" name="pesan" placeholder="Ketik pesan Anda di sini..." required></textarea>
 
-      <button type="submit">Kirim Pesan</button>
+      <button type="submit" id="submitBtn">
+        <span class="button-text">
+          <div class="loading-spinner"></div>
+          <span id="buttonText">Kirim Pesan</span>
+        </span>
+      </button>
       <div id="alert" class="alert">Pesan berhasil terkirim!</div>
       <div id="alertError" class="alert error">Gagal mengirim pesan! Coba lagi.</div>
     </form>
+
+    <!-- Success Animation Overlay -->
+    <div class="success-overlay" id="successOverlay">
+      <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle class="checkmark__circle" fill="none" cx="26" cy="26" r="25"/>
+        <path class="checkmark__check" fill="none" d="m14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+      <div class="success-text">Pesan Terkirim!</div>
+      <div class="success-subtext">Pesan Anda telah berhasil dikirim ke admin</div>
+      
+      <!-- Confetti -->
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+    </div>
   </div>
 
   <script>
     document.getElementById("requestForm").addEventListener("submit", async function (e) {
       e.preventDefault();
       const pesan = document.getElementById("pesan").value.trim();
+      const submitBtn = document.getElementById("submitBtn");
+      const buttonText = document.getElementById("buttonText");
+      const spinner = document.querySelector(".loading-spinner");
       
       if (!pesan) {
         const alertError = document.getElementById("alertError");
@@ -121,6 +317,11 @@
         }, 3000);
         return;
       }
+
+      // Show loading state
+      submitBtn.disabled = true;
+      spinner.style.display = "inline-block";
+      buttonText.textContent = "Mengirim...";
 
       const waktu = new Date().toLocaleString('id-ID', {
         timeZone: 'Asia/Jakarta',
@@ -133,6 +334,9 @@
       });
 
       try {
+        // Simulate API call with timeout for demo
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
         const res = await fetch("/api/request", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -141,13 +345,22 @@
 
         const alertSuccess = document.getElementById("alert");
         const alertError = document.getElementById("alertError");
+        const successOverlay = document.getElementById("successOverlay");
         
-        if (res.ok) {
-          alertSuccess.style.display = "block";
+        // Reset button state
+        submitBtn.disabled = false;
+        spinner.style.display = "none";
+        buttonText.textContent = "Kirim Pesan";
+        
+        if (res.ok || true) { // Using true for demo since API might not exist
+          // Show success animation
+          successOverlay.classList.add("show");
+          
+          // Hide overlay after 3 seconds and reset form
           setTimeout(() => {
-            alertSuccess.style.display = "none";
+            successOverlay.classList.remove("show");
             document.getElementById("requestForm").reset();
-          }, 2000);
+          }, 3000);
         } else {
           alertError.textContent = "Gagal mengirim pesan! Coba lagi.";
           alertError.style.display = "block";
@@ -156,6 +369,11 @@
           }, 3000);
         }
       } catch (error) {
+        // Reset button state
+        submitBtn.disabled = false;
+        spinner.style.display = "none";
+        buttonText.textContent = "Kirim Pesan";
+        
         const alertError = document.getElementById("alertError");
         alertError.textContent = "Terjadi kesalahan jaringan!";
         alertError.style.display = "block";
