@@ -1,12 +1,12 @@
 {
-  "name": "absen-bot",
-  "version": "1.1.1",
-  "description": "Absen Web To Bot",
+  "name": "request-bot",
+  "version": "1.0.0",
+  "description": "Website Request To Bot",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "author": "FurqonCl",
+  "author": "xXx",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.9.0",
