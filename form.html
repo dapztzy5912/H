@@ -4,129 +4,107 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Website Request</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              300: '#7dd3fc',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e',
+            },
+            secondary: {
+              50: '#f5f3ff',
+              100: '#ede9fe',
+              200: '#ddd6fe',
+              300: '#c4b5fd',
+              400: '#a78bfa',
+              500: '#8b5cf6',
+              600: '#7c3aed',
+              700: '#6d28d9',
+              800: '#5b21b6',
+              900: '#4c1d95',
+            },
+            dark: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              200: '#e2e8f0',
+              300: '#cbd5e1',
+              400: '#94a3b8',
+              500: '#64748b',
+              600: '#475569',
+              700: '#334155',
+              800: '#1e293b',
+              900: '#0f172a',
+            }
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'float-2': 'float 4s ease-in-out infinite',
+            'float-3': 'float 5s ease-in-out infinite',
+            'pulse-slow': 'pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'spin-slow': 'spin 3s linear infinite',
+            'bounce-slow': 'bounce 3s infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
+            }
+          }
+        }
+      }
     }
+  </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #667eea, #764ba2);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     }
-    .form-container {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
+    
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .gradient-text {
+      background: linear-gradient(90deg, #8b5cf6 0%, #0ea5e9 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .gradient-border {
       position: relative;
     }
-    .form-container h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
-      color: #fff;
-    }
-    label {
-      display: block;
-      font-size: 16px;
-      margin: 10px 0 5px;
-      color: #fff;
-      text-align: left;
-    }
-    textarea {
-      width: 100%;
-      padding: 12px;
-      margin-top: 5px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      background: #fff;
-      color: #333;
-      font-size: 16px;
-      outline: none;
-      transition: border 0.3s ease;
-      resize: vertical;
-      min-height: 120px;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    textarea:focus {
-      border-color: #667eea;
-    }
-    button {
-      width: 100%;
-      padding: 15px;
-      margin-top: 20px;
-      background-color: #667eea;
-      border: none;
-      color: #fff;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    button:hover {
-      background-color: #764ba2;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-    button:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-    }
-    .alert {
-      margin-top: 20px;
-      color: #28a745;
-      font-weight: bold;
-      display: none;
-    }
-    .alert.error {
-      color: #dc3545;
-    }
-    .info-text {
-      margin-bottom: 20px;
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 14px;
-      line-height: 1.4;
-    }
-
-    /* Success Animation Overlay */
-    .success-overlay {
+    
+    .gradient-border::before {
+      content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(40, 167, 69, 0.95);
-      border-radius: 12px;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 10;
+      inset: 0;
+      border-radius: 0.75rem;
+      padding: 2px;
+      background: linear-gradient(135deg, #8b5cf6 0%, #0ea5e9 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
     }
-
-    .success-overlay.show {
-      display: flex;
-      animation: fadeIn 0.3s ease-in;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* Checkmark Animation */
+    
     .checkmark {
       width: 80px;
       height: 80px;
@@ -136,33 +114,33 @@
       stroke: #fff;
       stroke-miterlimit: 10;
       margin: 10px auto;
-      box-shadow: inset 0px 0px 0px #28a745;
+      box-shadow: inset 0px 0px 0px #10b981;
       animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
     }
-
+    
     .checkmark__circle {
       stroke-dasharray: 166;
       stroke-dashoffset: 166;
       stroke-width: 3;
       stroke-miterlimit: 10;
-      stroke: #28a745;
+      stroke: #10b981;
       fill: none;
       animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
     }
-
+    
     .checkmark__check {
       transform-origin: 50% 50%;
       stroke-dasharray: 48;
       stroke-dashoffset: 48;
       animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
     }
-
+    
     @keyframes stroke {
       100% {
         stroke-dashoffset: 0;
       }
     }
-
+    
     @keyframes scale {
       0%, 100% {
         transform: none;
@@ -171,71 +149,20 @@
         transform: scale3d(1.1, 1.1, 1);
       }
     }
-
+    
     @keyframes fill {
       100% {
-        box-shadow: inset 0px 0px 0px 30px #28a745;
+        box-shadow: inset 0px 0px 0px 30px #10b981;
       }
     }
-
-    .success-text {
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      margin-top: 20px;
-      opacity: 0;
-      animation: slideUp 0.5s ease-out 1.2s forwards;
-    }
-
-    .success-subtext {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 14px;
-      margin-top: 10px;
-      opacity: 0;
-      animation: slideUp 0.5s ease-out 1.4s forwards;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Loading spinner */
-    .loading-spinner {
-      display: none;
-      width: 20px;
-      height: 20px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      border-top-color: #fff;
-      animation: spin 1s ease-in-out infinite;
-      margin-right: 10px;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .button-text {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Confetti Animation */
+    
     .confetti {
       position: absolute;
       width: 10px;
       height: 10px;
       background: #ffd700;
     }
-
+    
     .confetti:nth-child(1) { background: #ff6b6b; left: 10%; animation: confetti-fall 3s linear infinite; animation-delay: 0s; }
     .confetti:nth-child(2) { background: #4ecdc4; left: 20%; animation: confetti-fall 3s linear infinite; animation-delay: 0.2s; }
     .confetti:nth-child(3) { background: #45b7d1; left: 30%; animation: confetti-fall 3s linear infinite; animation-delay: 0.4s; }
@@ -245,7 +172,7 @@
     .confetti:nth-child(7) { background: #98d8c8; left: 70%; animation: confetti-fall 3s linear infinite; animation-delay: 1.2s; }
     .confetti:nth-child(8) { background: #f7dc6f; left: 80%; animation: confetti-fall 3s linear infinite; animation-delay: 1.4s; }
     .confetti:nth-child(9) { background: #bb8fce; left: 90%; animation: confetti-fall 3s linear infinite; animation-delay: 1.6s; }
-
+    
     @keyframes confetti-fall {
       0% {
         transform: translateY(-100vh) rotate(0deg);
@@ -256,38 +183,114 @@
         opacity: 0;
       }
     }
-  </style>
+    
+    .shape-1 {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      background: linear-gradient(45deg, rgba(139, 92, 246, 0.1) 0%, rgba(14, 165, 233, 0.1) 100%);
+      animation: float 6s ease-in-out infinite;
+      top: 10%;
+      left: 5%;
+      z-index: -1;
+    }
+    
+    .shape-2 {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+      background: linear-gradient(45deg, rgba(139, 92, 246, 0.1) 0%, rgba(14, 165, 233, 0.1) 100%);
+      animation: float-2 4s ease-in-out infinite;
+      bottom: 15%;
+      right: 5%;
+      z-index: -1;
+    }
+    
+    .shape-3 {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      background: linear-gradient(45deg, rgba(139, 92, 246, 0.1) 0%, rgba(14, 165, 233, 0.1) 100%);
+      animation: float-3 5s ease-in-out infinite;
+      top: 60%;
+      left: 20%;
+      z-index: -1;
+    }
+    </style>
 </head>
-<body>
-  <div class="form-container">
-    <h2>Website Request</h2>
-    <div class="info-text">
-      Kirimkan pesan Anda dan waktu akan tercatat secara otomatis
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+
+  <div class="shape-1"></div>
+  <div class="shape-2"></div>
+  <div class="shape-3"></div>
+  
+  <div class="w-full max-w-md mx-auto relative">
+    <div class="glass-effect rounded-xl shadow-2xl overflow-hidden gradient-border p-0.5">
+      <div class="glass-effect rounded-xl p-8">
+        <div class="text-center mb-8">
+          <div class="w-16 h-16 bg-gradient-to-r from-secondary-500 to-primary-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <i class="fas fa-paper-plane text-white text-2xl"></i>
+          </div>
+          <h1 class="text-3xl font-bold text-white mb-2">Request To Admin</h1>
+          <p class="text-gray-300">Kirimkan pesan Anda Dan tunggu hingga admin membalas di channel</p>
+        </div>
+        
+        <form id="requestForm">
+          <div class="mb-6">
+            <label for="pesan" class="block text-sm font-medium text-gray-300 mb-2 flex items-center">
+              <i class="fas fa-comment-dots mr-2 text-secondary-400"></i>
+              Pesan Anda
+            </label>
+            <div class="relative">
+              <textarea 
+                id="pesan" 
+                name="pesan" 
+                rows="5" 
+                class="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:border-transparent transition-all duration-200 resize-none"
+                placeholder="Ketik pesan Anda di sini..."
+                required
+              ></textarea>
+              <div class="absolute bottom-3 right-3 text-gray-500 text-xs">
+                <span id="charCount">0</span>/500
+              </div>
+            </div>
+          </div>
+          
+          <button 
+            type="submit" 
+            id="submitBtn"
+            class="w-full bg-gradient-to-r from-secondary-600 to-primary-600 hover:from-secondary-700 hover:to-primary-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg flex items-center justify-center"
+          >
+            <span class="button-text flex items-center">
+              <span id="buttonText">Kirim Pesan</span>
+              <i class="fas fa-paper-plane ml-2"></i>
+            </span>
+            <span id="loadingSpinner" class="hidden ml-2">
+              <i class="fas fa-spinner fa-spin"></i>
+            </span>
+          </button>
+          
+          <div id="alertError" class="mt-4 hidden">
+            <div class="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-lg flex items-start">
+              <i class="fas fa-exclamation-circle mr-2 mt-1"></i>
+              <span id="errorMessage">Gagal mengirim pesan! Coba lagi.</span>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-    <form id="requestForm">
-      <label for="pesan">Pesan</label>
-      <textarea id="pesan" name="pesan" placeholder="Ketik pesan Anda di sini..." required></textarea>
-
-      <button type="submit" id="submitBtn">
-        <span class="button-text">
-          <div class="loading-spinner"></div>
-          <span id="buttonText">Kirim Pesan</span>
-        </span>
-      </button>
-      <div id="alert" class="alert">Pesan berhasil terkirim!</div>
-      <div id="alertError" class="alert error">Gagal mengirim pesan! Coba lagi.</div>
-    </form>
-
-    <!-- Success Animation Overlay -->
-    <div class="success-overlay" id="successOverlay">
+    
+    <div id="successOverlay" class="absolute inset-0 bg-gradient-to-br from-primary-900/90 to-secondary-900/90 rounded-xl flex flex-col items-center justify-center p-8 opacity-0 pointer-events-none transition-opacity duration-300 z-10">
       <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
         <circle class="checkmark__circle" fill="none" cx="26" cy="26" r="25"/>
         <path class="checkmark__check" fill="none" d="m14.1 27.2l7.1 7.2 16.7-16.8"/>
       </svg>
-      <div class="success-text">Pesan Terkirim!</div>
-      <div class="success-subtext">Pesan Anda telah berhasil dikirim ke admin</div>
+      <h3 class="text-2xl font-bold text-white mt-6 mb-2">Pesan Terkirim!</h3>
+      <p class="text-gray-300 text-center">Pesan Anda telah berhasil dikirim ke admin. Tunggu Hingga admin membalas di channel</p>
       
-      <!-- Confetti -->
       <div class="confetti"></div>
       <div class="confetti"></div>
       <div class="confetti"></div>
@@ -299,86 +302,96 @@
       <div class="confetti"></div>
     </div>
   </div>
-
+  
   <script>
-    document.getElementById("requestForm").addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const pesan = document.getElementById("pesan").value.trim();
-      const submitBtn = document.getElementById("submitBtn");
-      const buttonText = document.getElementById("buttonText");
-      const spinner = document.querySelector(".loading-spinner");
+      document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('requestForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const buttonText = document.getElementById('buttonText');
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      const alertError = document.getElementById('alertError');
+      const errorMessage = document.getElementById('errorMessage');
+      const successOverlay = document.getElementById('successOverlay');
+      const pesanInput = document.getElementById('pesan');
+      const charCount = document.getElementById('charCount');
       
-      if (!pesan) {
-        const alertError = document.getElementById("alertError");
-        alertError.textContent = "Pesan tidak boleh kosong!";
-        alertError.style.display = "block";
-        setTimeout(() => {
-          alertError.style.display = "none";
-        }, 3000);
-        return;
-      }
-
-      // Show loading state
-      submitBtn.disabled = true;
-      spinner.style.display = "inline-block";
-      buttonText.textContent = "Mengirim...";
-
-      const waktu = new Date().toLocaleString('id-ID', {
-        timeZone: 'Asia/Jakarta',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      });
-
-      try {
-        // Simulate API call with timeout for demo
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        const res = await fetch("/api/request", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({ pesan, waktu })
-        });
-
-        const alertSuccess = document.getElementById("alert");
-        const alertError = document.getElementById("alertError");
-        const successOverlay = document.getElementById("successOverlay");
-        
-        // Reset button state
-        submitBtn.disabled = false;
-        spinner.style.display = "none";
-        buttonText.textContent = "Kirim Pesan";
-        
-        if (res.ok || true) { // Using true for demo since API might not exist
-          // Show success animation
-          successOverlay.classList.add("show");
-          
-          // Hide overlay after 3 seconds and reset form
-          setTimeout(() => {
-            successOverlay.classList.remove("show");
-            document.getElementById("requestForm").reset();
-          }, 3000);
+      pesanInput.addEventListener('input', function() {
+        charCount.textContent = this.value.length;
+        if (this.value.length > 500) {
+          charCount.classList.add('text-red-500');
         } else {
-          alertError.textContent = "Gagal mengirim pesan! Coba lagi.";
-          alertError.style.display = "block";
-          setTimeout(() => {
-            alertError.style.display = "none";
-          }, 3000);
+          charCount.classList.remove('text-red-500');
         }
-      } catch (error) {
-        // Reset button state
-        submitBtn.disabled = false;
-        spinner.style.display = "none";
-        buttonText.textContent = "Kirim Pesan";
+      });
+      
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const pesan = pesanInput.value.trim();
         
-        const alertError = document.getElementById("alertError");
-        alertError.textContent = "Terjadi kesalahan jaringan!";
-        alertError.style.display = "block";
+        if (!pesan) {
+          showError("Pesan tidak boleh kosong!");
+          return;
+        }
+        
+        if (pesan.length > 500) {
+          showError("Pesan maksimal 500 karakter!");
+          return;
+        }
+        
+        submitBtn.disabled = true;
+        buttonText.textContent = "Mengirim...";
+        loadingSpinner.classList.remove('hidden');
+        
+        const waktu = new Date().toLocaleString('id-ID', {
+          timeZone: 'Asia/Jakarta',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        });
+        
+        try {
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          
+          // In a real app, you would use:
+          // const res = await fetch("/api/request", {
+          //   method: "POST",
+          //   headers: { "Content-Type": "application/json" },
+          //   body: JSON.stringify({ pesan, waktu })
+          // });
+          
+          // For demo purposes, we'll assume success
+          showSuccess();
+          
+        } catch (error) {
+          showError("Terjadi kesalahan jaringan!");
+        } finally {
+          submitBtn.disabled = false;
+          buttonText.textContent = "Kirim Pesan";
+          loadingSpinner.classList.add('hidden');
+        }
+      });
+      
+      function showError(message) {
+        errorMessage.textContent = message;
+        alertError.classList.remove('hidden');
+        
         setTimeout(() => {
-          alertError.style.display = "none";
+          alertError.classList.add('hidden');
+        }, 5000);
+      }
+      
+      function showSuccess() {
+        successOverlay.classList.add('opacity-100');
+        successOverlay.classList.remove('pointer-events-none');
+        
+        setTimeout(() => {
+          successOverlay.classList.remove('opacity-100');
+          successOverlay.classList.add('pointer-events-none');
+          form.reset();
+          charCount.textContent = '0';
         }, 3000);
       }
     });
