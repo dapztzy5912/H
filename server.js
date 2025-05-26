@@ -7,10 +7,10 @@ const axios = require("axios");
 const app = express();
 const PORT = 3000;
 
-const TELEGRAM_BOT_TOKEN = "7993567098:AAFZD-0q0oy5iaIQgmA28neKhRqpVxJYqOA";
-const TELEGRAM_USER_ID = "7341190291"; 
+const TELEGRAM_BOT_TOKEN = "8046810663:AAEDKWWGJeCA6us-g0j7RuZniHlKxSLqgSw";
+const TELEGRAM_USER_ID = "7333629874"; 
 
-const requestFile = path.join(__dirname, "requests.json");
+const absensiFile = path.join(__dirname, "absensi.json");
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,32 +20,25 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "form.html"));
 });
 
-// Handle request
-app.post("/api/request", async (req, res) => {
-    const { pesan, waktu } = req.body;
-    const data = { pesan, waktu };
+// Handle absen
+app.post("/api/absen", async (req, res) => {
+    const { nama, umur, kelas, waktu } = req.body;
+    const data = { nama, umur, kelas, waktu };
 
-    // Simpan ke file JSON
     let list = [];
-    if (fs.existsSync(requestFile)) {
-        list = JSON.parse(fs.readFileSync(requestFile));
+    if (fs.existsSync(absensiFile)) {
+        list = JSON.parse(fs.readFileSync(absensiFile));
     }
     list.push(data);
-    fs.writeFileSync(requestFile, JSON.stringify(list, null, 2));
+    fs.writeFileSync(absensiFile, JSON.stringify(list, null, 2));
 
-    // Kirim ke Telegram
-    const text = `Woi Bang Ada Yang Request Nih:\n\nPesan: ${pesan}\nWaktu: ${waktu}`;
-    
-    try {
-        await axios.post(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            chat_id: TELEGRAM_USER_ID,
-            text
-        });
-        res.sendStatus(200);
-    } catch (error) {
-        console.error("Error sending to Telegram:", error);
-        res.sendStatus(500);
-    }
+    const text = `Woi Bang Ada Yang Absen Nih:\nNama: ${nama}\nUmur: ${umur}\nKelas: ${kelas}\nWaktu: ${waktu}`;
+    await axios.post(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        chat_id: TELEGRAM_USER_ID,
+        text
+    });
+
+    res.send(`<p>Absensi berhasil dikirim!</p><a href="/">Kembali</a>`);
 });
 
 // Endpoint Webhook dari Telegram
@@ -56,21 +49,21 @@ app.post(`/webhook/${TELEGRAM_BOT_TOKEN}`, async (req, res) => {
     const chatId = message.chat.id;
     const text = message.text;
 
-    if (text === "/cekrequest") {
-        let responseText = "Daftar Request:\n\n";
+    if (text === "/cekabsen") {
+        let responseText = "Daftar Absensi:\n\n";
 
-        if (fs.existsSync(requestFile)) {
-            const list = JSON.parse(fs.readFileSync(requestFile));
+        if (fs.existsSync(absensiFile)) {
+            const list = JSON.parse(fs.readFileSync(absensiFile));
 
             if (list.length === 0) {
-                responseText = "Belum ada data request.";
+                responseText = "Belum ada data absensi.";
             } else {
                 list.forEach((item, index) => {
-                    responseText += `${index + 1}. ${item.pesan}\n   Waktu: ${item.waktu}\n\n`;
+                    responseText += `${index + 1}. ${item.nama} | ${item.umur} th | ${item.kelas} | ${item.waktu}\n`;
                 });
             }
         } else {
-            responseText = "File request tidak ditemukan.";
+            responseText = "File absensi tidak ditemukan.";
         }
 
         await axios.post(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
