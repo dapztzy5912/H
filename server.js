@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Tampilkan halaman form
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "form.html"));
+    res.sendFile(path.join(__dirname, "public/form.html"));
 });
 
 // Handle request
